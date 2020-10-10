@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/static/js/jquery.min.js"></script>
+</head>
+<body>
+<a href="/models/modelList"><button>返回模型列表页</button></a>
+<div>
+    <span th:text="'用户：'+${userId}"></span>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>任务名称</th>
+            <th>受理人</th>
+            <th>任务ID</th>
+            <th>流程ID</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="data : ${tasks}">
+            <td th:text="${data.id}">LeaveBill:1:4</td>
+            <td th:text="${data.name}"></td>
+            <td th:text="${data.assignee}">1</td>
+            <td th:text="${data.taskDefinitionKey}"></td>
+            <td th:text="${data.processDefinitionId}"></td>
+            <td th:text="${data.createTime}"> 2018-02-25 17:28:35</td>
+            <td>
+                <a th:href="${'/tasks/form?id='+data.id+'&userId='+data.assignee}" th:attrappend="objectId=${data.id}" lass="font-blue deployBtn">处理</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

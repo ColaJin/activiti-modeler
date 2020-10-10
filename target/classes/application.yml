@@ -1,0 +1,54 @@
+spring:
+  activiti:
+    database-schema-update: true
+    history-level: full
+    db-history-used: true
+    check-process-definitions: false # 自动部署验证设置:true-开启（默认）、false-关闭
+  thymeleaf:
+    mode: HTML
+    encoding: utf-8
+    # thymeleaf缓存 开发时禁用，上线打开
+    cache: false
+  datasource:
+
+      url: jdbc:mysql://47.99.105.168:3306/activiti_test_01?useUnicode=true&characterEncoding=utf8&useSSL=false&nullCatalogMeansCurrent=true
+      username: root
+      password: hzjs123456
+      driver-class-name: com.mysql.jdbc.Driver
+      dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+      tomcat:
+        max-active: 200
+        max-wait: 5000
+      ddl-auto: update
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        enable_lazy_load_no_trans: true
+  security:
+    user:
+      name: admin 
+      password: admin
+  # mvc:
+    # 静态资源路径
+    # static-path-pattern: /static/**
+   
+swagger:
+  enabled: true
+
+#开发环境配置
+server:
+  #服务端口
+  port: 3838
+  servlet:
+    # 项目contextPath
+    context-path: /
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+    # tomcat最大线程数，默认为200
+    max-threads: 800
+    # Tomcat启动初始化的线程数，默认值25
+    min-spare-threads: 30

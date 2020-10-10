@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/static/js/jquery.min.js"></script>
+    <script>
+        function showProcessImg(processInstanceId) {
+            $.ajax({
+                url:'/processes/queryProHighLighted',
+                type:'POST',
+                data:{
+                    proInsId:processInstanceId
+                },
+                success:function(res){
+                    $("#processImg").attr('src',"data:image/png;base64,"+res);
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<a href="javascript:void(0);" th:onclick="showProcessImg([[${task.processInstanceId}]])"><button>查看流程图</button></a>
+<form action="/tasks/completeTaskSl">
+    <input type="hidden" id="id" name="id" th:value="${data.id}"/>
+    <input type="hidden" id="userId" name="userId" th:value="${data.userId}"/>
+    <input type="text" id="attr1" name="attr1"/>
+    <button type="submit">提交</button>
+    <button>取消</button>
+</form>
+<img src="" id="processImg"/>
+</body>
+</html>

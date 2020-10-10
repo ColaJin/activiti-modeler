@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/static/js/jquery.min.js"></script>
+    <script th:inline="javascript">
+        function deployment(obj){
+            var id=obj.attributes['objectid'].nodeValue;
+            $.ajax({
+                url:"/models/deployment/"+id,
+                type:"GET",
+                dataType:"text",
+                success:function(res){
+                    alert(res);
+                }
+            });
+
+        }
+
+        function deleteProcess(obj){
+            var id=obj.attributes['objectid'].nodeValue;
+            $.ajax({
+                url:"/models/delete/"+id,
+                type:"GET",
+                success:function(res){
+                    alert(res);
+                    dataType:"text",
+                    window.location.reload();
+                }
+
+            });
+
+        }
+
+        function start(obj){
+            var deploymentId=obj.attributes['objectid'].nodeValue;
+            $.ajax({
+                url:'/processes/start/'+deploymentId,
+                type:'GET',
+                dataType:"text",
+                success:function(res){
+                    alert(res);
+                }
+            });
+
+
+        }
+
+        function taskList(){
+            $("#taskList").submit();
+        }
+    </script>
+</head>
+<body>
+<div class="info"><span th:text="${info}"></span></div>
+<a href="/models/create">新建</a>
+<form id="taskList" action="/tasks/queryTask">
+<div>
+    <div style="float:left;width:50%;">
+        <select id="userId" name="userId">
+            <option value="单总">单总</option>
+            <option value="黄总">黄总</option>
+            <option value="jyd">jyd</option>
+        </select>
+    </div>
+    <div style="width:50%;">
+        <button onclick="taskList();">任务列表</button>
+    </div>
+</div>
+</form>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>模型名称</th>
+        <th>key</th>
+        <th>版本</th>
+        <th>部署ID</th>
+        <th>创建时间</th>
+        <th>最后更新时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="data : ${models}">
+        <td th:text="${data.id}"></td>
+        <td><a th:href="@{/static/modeler.html(modelId=${data.id})}" class="font-blue" th:text="${data.name}"></a>
+        </td>
+        <td th:text="${data.key}"></td>
+        <td th:text="${data.version}"></td>
+        <td th:text="${data.deploymentId}"></td>
+        <td th:text="${data.createTime}"> 2018-02-25 17:28:35</td>
+        <td th:text="${data.lastUpdateTime}"> 2018-02-25 17:28:35</td>
+        <td><a href="javascript:void(0);" onclick="deployment(this);" th:attrappend="objectId=${data.id}" lass="font-blue deployBtn">发布</a>
+            <a href="javascript:void(0);" onclick="start(this);" th:attrappend="objectId=${data.deploymentId}" lass="font-blue deployBtn">发起流程</a>
+            <a href="javascript:void(0);" onclick="deleteProcess(this);" th:attrappend="objectId=${data.id}" class="font-blue delBtn">删除</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
